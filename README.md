@@ -35,7 +35,7 @@ Sidejobs.configure do |config|
 end
 ```
 
-Run the migration to create the sidejbos table:
+Run the migration to create the sidejobs table:
 ```
 bundle exec rake db:migrate
 ```
@@ -69,7 +69,7 @@ Management is done programtically using Sidejobs::Job model:
 Sidejobs::Job.where(status: 'failing').where('attempts > ?', 3).destroy_all
 ```
 
-NOTE: Is better to handle management this way to avoid multiple html interfaces.
+NOTE: Is better to do it this way to have the freedom to integrate the code anyway you want.
 
 ## Credits
 
