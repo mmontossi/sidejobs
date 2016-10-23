@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/mmontossi/sidejobs.svg)](https://travis-ci.org/mmontossi/sidejobs)
 [![Dependency Status](https://gemnasium.com/mmontossi/sidejobs.svg)](https://gemnasium.com/mmontossi/sidejobs)
 
-# Tuning
+# Sidejobs
 
 Versatile async database based jobs for rails.
 
