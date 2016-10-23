@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  database: sidejobs_development
+
+test:
+  adapter: postgresql
+  database: sidejobs_test
