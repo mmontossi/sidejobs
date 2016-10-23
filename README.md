@@ -66,7 +66,7 @@ SendNewsletterJob.perform_later
 
 Management is done programtically using Sidejobs::Job model:
 ```ruby
-Sidejobs::Job.where(status: 'failing').where('attempts > ?', 3).destroy_all
+Sidejobs::Job.failing.where('attempts > ?', 3).destroy_all
 ```
 
 NOTE: Is better to do it this way to have the freedom to integrate the code anyway you want.

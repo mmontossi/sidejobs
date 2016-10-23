@@ -7,6 +7,10 @@ class DaemonTest < ActiveSupport::TestCase
     @pid_path = Rails.root.join('tmp/pids/sidejobs.pid')
   end
 
+  teardown do
+    FileUtils.rm_rf @pid_path
+  end
+
   test 'process' do
     fork do
       @daemon.start

@@ -12,7 +12,7 @@ class ProcessorTest < ActiveSupport::TestCase
     UserMailer.invite('test@mail.com').deliver_later
     @processor.process
     job = Sidejobs::Job.last
-    assert_equal 'complete', job.status
+    assert job.complete?
     assert_nil job.error
     assert_equal 1, job.attempts
     assert_operator job.completed_at, :>, job.processed_at
@@ -23,15 +23,15 @@ class ProcessorTest < ActiveSupport::TestCase
       UserMailer.invite('test@mail.com').deliver_later
     end
     @processor.process
-    assert_equal @batch_size, Sidejobs::Job.where(status: 'complete').count
-    assert_equal 0, Sidejobs::Job.where(status: 'processing').count
-    assert_equal 4, Sidejobs::Job.where(status: 'pending').count
+    assert_equal @batch_size, Sidejobs::Job.complete.count
+    assert_equal 0, Sidejobs::Job.processing.count
+    assert_equal 4, Sidejobs::Job.pending.count
 
-    Sidejobs::Job.last.update status: 'processing'
+    Sidejobs::Job.last.update status: 'processing', processed_at: Time.now
     @processor.process
-    assert_equal (@batch_size + 3), Sidejobs::Job.where(status: 'complete').count
-    assert_equal 1, Sidejobs::Job.where(status: 'processing').count
-    assert_equal 0, Sidejobs::Job.where(status: 'pending').count
+    assert_equal (@batch_size + 3), Sidejobs::Job.complete.count
+    assert_equal 1, Sidejobs::Job.processing.count
+    assert_equal 0, Sidejobs::Job.pending.count
   end
 
   test 'retries' do
@@ -40,7 +40,7 @@ class ProcessorTest < ActiveSupport::TestCase
       @processor.process
     end
     job = Sidejobs::Job.last
-    assert_equal 'failing', job.status
+    assert job.failing?
     assert_equal 'Social network unavailable', job.error
     assert_equal @max_attempts, job.attempts
     assert_operator job.failed_at, :>, job.processed_at
