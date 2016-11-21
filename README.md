@@ -57,9 +57,11 @@ end
 
 ## Usage
 
-Start the daemon using the rake task:
+To control the daemon, use the rake tasks:
 ```
 $ bundle exec rake sidejobs:start
+$ bundle exec rake sidejobs:stop
+$ bundle exec rake sidejobs:restart
 ```
 
 Now you can deliver mails using deliver_later:
