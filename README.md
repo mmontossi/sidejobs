@@ -31,7 +31,7 @@ $ bundle
 
 Generate the sidejobs configuration and migration file:
 ```
-bundle exec rails g sidejobs:install
+$ bundle exec rails g sidejobs:install
 ```
 
 The default configuration options are:
@@ -45,7 +45,7 @@ end
 
 Run the migration to create the sidejobs table:
 ```
-bundle exec rake db:migrate
+$ bundle exec rake db:migrate
 ```
 
 Assign the sidejobs adapter to the environments:
@@ -59,7 +59,7 @@ end
 
 Start the daemon using the rake task:
 ```
-bundle exec rake sidejobs:start
+$ bundle exec rake sidejobs:start
 ```
 
 Now you can deliver mails using deliver_later:
