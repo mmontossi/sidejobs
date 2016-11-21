@@ -8,9 +8,7 @@ script:
   - cd test/dummy && bundle exec rake db:create db:migrate
   - bundle exec rake test
 env:
-  - RAILS=4.2.0 DB=mysql
-  - RAILS=4.2.0 DB=postgres
-  - RAILS=4.2.0 DB=sqlite
+  - RAILS=4.2.0
 rvm:
   - 2.1.0
   - 2.2.0

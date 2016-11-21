@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.name        = 'sidejobs'
   s.version     = Sidejobs::VERSION
   s.authors     = ['mmontossi']
-  s.email       = ['mmontossi@buyin.io']
+  s.email       = ['mmontossi@gmail.com']
   s.homepage    = 'https://github.com/mmontossi/sidejobs'
   s.summary     = 'Async jobs for rails'
   s.description = 'Versatile async database based jobs for rails.'

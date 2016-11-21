@@ -7,6 +7,14 @@
 
 Versatile async database based jobs for rails.
 
+## Why
+
+I did this gem to:
+
+- Avoid the need to install another admin interface.
+- Simplify the job api by having close integration to rails.
+- Using sql instead of redis to never lose jobs.
+
 ## Install
 
 Put this line in your Gemfile:
@@ -68,8 +76,6 @@ Management is done programtically using Sidejobs::Job model:
 ```ruby
 Sidejobs::Job.failing.where('attempts > ?', 3).destroy_all
 ```
-
-NOTE: Is better to do it this way to have the freedom to integrate the code anyway you want.
 
 ## Credits
 

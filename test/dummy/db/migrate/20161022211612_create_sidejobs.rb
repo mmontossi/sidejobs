@@ -1,11 +1,7 @@
 class CreateSidejobs < ActiveRecord::Migration
   def change
     create_table :sidejobs do |t|
-      if ActiveRecord::Base.connection_config[:adapter] == 'postgresql'
-        t.jsonb :data
-      else
-        t.string :data
-      end
+      t.jsonb :data
       t.string :queue
       t.string :status, default: 'pending'
       t.integer :priority, default: 0

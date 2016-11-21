@@ -1,6 +1,6 @@
 module Sidejobs
   class Job < ActiveRecord::Base
-    self.table_name = 'sidejobs'
+
     STATUS = %w(pending processing failing complete)
 
     STATUS.each do |name|
@@ -16,6 +16,10 @@ module Sidejobs
     validates_presence_of :processed_at, if: :processing?
     validates_inclusion_of :status, within: STATUS
     validates_numericality_of :priority, :attempts, only_integer: true
+
+    def self.table_name
+      'sidejobs'
+    end
 
   end
 end
