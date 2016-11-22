@@ -3,9 +3,7 @@ module Sidejobs
     module ActiveJob
       module QueueAdapters
         class SidejobsAdapter
-          extend ActiveSupport::Concern
-
-          module ClassMethods
+          class << self
 
             def enqueue(job)
               Sidejobs.queue.add(
