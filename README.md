@@ -27,7 +27,9 @@ Then bundle:
 $ bundle
 ```
 
-## Configuration
+## Usage
+
+### Configuration
 
 Generate the sidejobs configuration and migration file:
 ```
@@ -55,7 +57,7 @@ Rails.application.configure do
 end
 ```
 
-## Usage
+### Daemon
 
 To control the daemon, use the rake tasks:
 ```
@@ -64,7 +66,9 @@ $ bundle exec rake sidejobs:stop
 $ bundle exec rake sidejobs:restart
 ```
 
-Now you can deliver mails using deliver_later:
+### Queue
+
+You can deliver mails using deliver_later:
 ```ruby
 UserMailer.invite('someone@mail.com').deliver_later
 ```
@@ -74,7 +78,9 @@ Or perform jobs using perform_later:
 SendNewsletterJob.perform_later
 ```
 
-Management is done programtically using Sidejobs::Job model:
+### Management
+
+No admin interface, all is done using Sidejobs::Job model:
 ```ruby
 Sidejobs::Job.failing.where('attempts > ?', 3).destroy_all
 ```
