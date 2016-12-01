@@ -34,7 +34,7 @@ Generate the sidejobs configuration and migration file:
 $ bundle exec rails g sidejobs:install
 ```
 
-The default configuration options are:
+Set the global settings:
 ```ruby
 Sidejobs.configure do |config|
   config.max_attempts = 3
