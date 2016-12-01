@@ -27,9 +27,7 @@ Then bundle:
 $ bundle
 ```
 
-## Usage
-
-### Configuration
+## Configuration
 
 Generate the sidejobs configuration and migration file:
 ```
@@ -56,6 +54,8 @@ Rails.application.configure do
   config.active_job.queue_adapter = :sidejobs
 end
 ```
+
+## Usage
 
 ### Daemon
 
