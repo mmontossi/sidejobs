@@ -20,7 +20,7 @@ class DaemonTest < ActiveSupport::TestCase
     assert @daemon.pid
     assert File.exist?(@pid_path)
     assert Process.pid != @daemon.pid
-    assert process_exist?(@daemon.pid)
+    assert process_exists?(@daemon.pid)
 
     pid = @daemon.pid
     fork do
@@ -31,16 +31,16 @@ class DaemonTest < ActiveSupport::TestCase
     assert @daemon.pid
     assert File.exist?(@pid_path)
     assert Process.pid != @daemon.pid
-    assert process_exist?(@daemon.pid)
+    assert process_exists?(@daemon.pid)
     sleep 8
-    assert_not process_exist?(pid)
+    assert_not process_exists?(pid)
 
     pid = @daemon.pid
     @daemon.stop
     assert_nil @daemon.pid
     assert_not File.exist?(@pid_path)
     sleep 8
-    assert_not process_exist?(pid)
+    assert_not process_exists?(pid)
   end
 
   test 'pulling' do
@@ -55,7 +55,7 @@ class DaemonTest < ActiveSupport::TestCase
 
   private
 
-  def process_exist?(pid)
+  def process_exists?(pid)
     begin
       Process.kill 0, pid
       true
