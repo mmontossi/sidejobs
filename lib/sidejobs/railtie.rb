@@ -1,7 +1,7 @@
 module Sidejobs
   class Railtie < Rails::Railtie
 
-    initializer 'sidejobs.extensions' do
+    initializer 'sidejobs.active_job' do
       ::ActiveJob::QueueAdapters.include(
         Sidejobs::Extensions::ActiveJob::QueueAdapters
       )
