@@ -2,10 +2,10 @@ module Sidejobs
   class Processor
 
     def process
-      original_logger = ActiveJob::Base.logger
-      ActiveJob::Base.logger = Sidejobs.logger
+      original_logger = ActiveRecord::Base.logger
+      ActiveRecord::Base.logger = Sidejobs.logger
       Sidejobs.queue.fetch.each do |job|
-        Sidejobs.logger.info "Processing ##{job.id} attempt #{job.attempts} of #{job.data['job_class']}"
+        Sidejobs.logger.info "Processing #{job.data['job_class']} ##{job.id} attempt #{job.attempts+1} at #{job.queue}"
         job.update status: 'processing', processed_at: Time.now, attempts: job.attempts+1
         begin
           ActiveJob::Base.execute job.data
@@ -16,7 +16,7 @@ module Sidejobs
           Sidejobs.logger.info "Error: #{exception.message}"
         end
       end
-      ActiveJob::Base.logger = original_logger
+      ActiveRecord::Base.logger = original_logger
     end
 
   end
