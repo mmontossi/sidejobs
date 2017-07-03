@@ -1,4 +1,4 @@
-class ShareProductsJob < ActiveJob::Base
+class ShareProductsJob < ApplicationJob
   queue_as :default
 
   def perform

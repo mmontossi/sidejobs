@@ -1,8 +1,7 @@
-class UpdateExchangesJob < ActiveJob::Base
+class UpdateExchangesJob < ApplicationJob
   queue_as :low_priority
 
   def perform
-    puts 'test'
   end
 
 end

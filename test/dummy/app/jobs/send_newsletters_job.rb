@@ -1,8 +1,7 @@
-class SendNewslettersJob < ActiveJob::Base
+class SendNewslettersJob < ApplicationJob
   queue_as :default
 
   def perform
-    puts 'test'
   end
 
 end

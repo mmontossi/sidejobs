@@ -4,7 +4,7 @@ class DaemonTest < ActiveSupport::TestCase
 
   setup do
     @daemon = Sidejobs.daemon
-    @pid_path = Rails.root.join('tmp/pids/sidejobs.pid')
+    @pid_path = Rails.root.join('tmp/sidejobs.pid')
   end
 
   teardown do
@@ -12,40 +12,37 @@ class DaemonTest < ActiveSupport::TestCase
   end
 
   test 'process' do
-    fork do
+    fork_process do
       @daemon.start
     end
-    reconnect
-    sleep 4
     assert @daemon.pid
     assert File.exist?(@pid_path)
     assert Process.pid != @daemon.pid
     assert process_exists?(@daemon.pid)
 
     pid = @daemon.pid
-    fork do
+    fork_process do
       @daemon.restart
     end
-    reconnect
-    sleep 4
+    wait_process pid
     assert @daemon.pid
     assert File.exist?(@pid_path)
     assert Process.pid != @daemon.pid
+    assert pid != @daemon.pid
     assert process_exists?(@daemon.pid)
-    sleep 8
     assert_not process_exists?(pid)
 
     pid = @daemon.pid
     @daemon.stop
+    wait_process pid
     assert_nil @daemon.pid
     assert_not File.exist?(@pid_path)
-    sleep 8
     assert_not process_exists?(pid)
   end
 
   test 'pulling' do
     @daemon.stubs(:daemonize)
-    @daemon.stubs(:stopping?).returns(false, true)
+    @daemon.stubs(:signal_received?).returns(false, true)
     processor = mock
     processor.expects(:process).once
     @daemon.stubs(:processor).returns(processor)
@@ -64,7 +61,14 @@ class DaemonTest < ActiveSupport::TestCase
     end
   end
 
-  def reconnect
+  def wait_process(pid)
+    Timeout::timeout(60 * 5) do
+      sleep 5 while process_exists?(pid)
+    end
+  end
+
+  def fork_process(&block)
+    fork &block
     ActiveRecord::Base.connection.reconnect!
   end
 

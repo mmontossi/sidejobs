@@ -1,5 +1,6 @@
 require 'sidejobs/extensions/active_job/queue_adapter'
 require 'sidejobs/configuration'
+require 'sidejobs/loggable'
 require 'sidejobs/daemon'
 require 'sidejobs/job'
 require 'sidejobs/processor'
@@ -19,7 +20,7 @@ module Sidejobs
     end
 
     def logger
-      @logger ||= Logger.new(Rails.root.join('log/sidejobs.log'))
+      @logger ||= ActiveSupport::Logger.new(Rails.root.join('log/sidejobs.log'))
     end
 
     def configuration

@@ -1,9 +1,6 @@
 module Sidejobs
   class Daemon
-
-    def initialize
-      @stopping = false
-    end
+    include Loggable
 
     def running?
       if pid
@@ -20,24 +17,19 @@ module Sidejobs
 
     def start
       unless running?
-        daemonize
-        write_pid
-        trap_signals
-        process
+        spawn
       end
     end
 
     def stop
       if running?
         Process.kill :TERM, pid
-        delete_pid
       end
     end
 
     def restart
       if running?
-        stop
-        start
+        Process.kill :HUP, pid
       else
         start
       end
@@ -47,31 +39,30 @@ module Sidejobs
       File.read(pid_path).to_i rescue nil
     end
 
-    def stopping?
-      @stopping == true
-    end
-
     private
 
+    def spawn
+      daemonize
+      write_pid
+      trap_signals
+      process
+    end
+
     def daemonize
-      exit if fork
-      Process.setsid
-      exit if fork
-      Dir.chdir '/'
-      File.umask 0000
-      $stdout.reopen log_path, 'a'
-      $stderr.reopen $stdout
-      $stdout.sync = true
+      Process.daemon
     end
 
     def trap_signals
       trap :TERM do
-        @stopping = true
+        @signal = :stop
+      end
+      trap :HUP do
+        @signal = :restart
       end
     end
 
     def delete_pid
-      File.unlink pid_path
+      FileUtils.rm_rf pid_path
     end
 
     def write_pid
@@ -79,25 +70,36 @@ module Sidejobs
       File.write pid_path, Process.pid
     end
 
-    def log_path
-      Rails.root.join 'log/sidejobs.log'
-    end
-
     def pid_path
-      Rails.root.join 'tmp/pids/sidejobs.pid'
+      Rails.root.join 'tmp/sidejobs.pid'
     end
 
     def processor
       @processor ||= Processor.new
     end
 
+    def handle_signal
+      case @signal
+      when :stop
+        delete_pid
+      when :restart
+        @signal = nil
+        spawn
+      end
+    end
+
+    def signal_received?
+      @signal.present?
+    end
+
     def process
-      Sidejobs.logger.info 'Starting'
-      until stopping? do
+      logger.info "Started #{pid} at #{Time.zone.now}"
+      until signal_received? do
         processor.process
         sleep Sidejobs.configuration.sleep_delay
       end
-      Sidejobs.logger.info 'Stopping'
+      logger.info "Stopped #{pid} at #{Time.zone.now}"
+      handle_signal
     end
 
   end

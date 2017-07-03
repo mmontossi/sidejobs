@@ -1,4 +1,4 @@
-class CreateSidejobs < ActiveRecord::Migration
+class CreateSidejobs < ActiveRecord::Migration[5.1]
   def change
     create_table :sidejobs do |t|
       t.jsonb :data

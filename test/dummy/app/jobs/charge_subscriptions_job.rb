@@ -1,8 +1,7 @@
-class ChargeSubscriptionsJob < ActiveJob::Base
+class ChargeSubscriptionsJob < ApplicationJob
   queue_as :high_priority
 
   def perform
-    puts 'test'
   end
 
 end

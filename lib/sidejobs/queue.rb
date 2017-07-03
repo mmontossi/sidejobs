@@ -3,7 +3,7 @@ module Sidejobs
 
     def add(data, options={})
       Job.create(
-        data: data.to_json,
+        data: data,
         queue: (options[:queue] || 'default'),
         priority: (options[:priority] || 0),
         scheduled_at: options[:schedule_at]

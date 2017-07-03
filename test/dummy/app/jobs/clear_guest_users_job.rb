@@ -1,8 +1,7 @@
-class ClearGuestUsersJob < ActiveJob::Base
+class ClearGuestUsersJob < ApplicationJob
   queue_as :other
 
   def perform
-    puts 'test'
   end
 
 end
