@@ -9,8 +9,6 @@ script:
 env:
   - RAILS=5.1
 rvm:
-  - 2.2.2
-  - 2.3.0
   - 2.4.0
 matrix:
   fast_finish: true
