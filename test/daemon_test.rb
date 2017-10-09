@@ -15,6 +15,7 @@ class DaemonTest < ActiveSupport::TestCase
     fork_process do
       @daemon.start
     end
+    sleep 5
     assert @daemon.pid
     assert File.exist?(@pid_path)
     assert Process.pid != @daemon.pid
