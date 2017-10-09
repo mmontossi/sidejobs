@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.name        = 'sidejobs'
   s.version     = Sidejobs::VERSION
   s.authors     = ['mmontossi']
-  s.email       = ['mmontossi@museways.com']
-  s.homepage    = 'https://github.com/mmontossi/sidejobs'
+  s.email       = ['hi@museways.com']
+  s.homepage    = 'https://github.com/museways/sidejobs'
   s.summary     = 'Async jobs for rails'
   s.description = 'Versatile async database based jobs for rails.'
   s.license     = 'MIT'

@@ -1,7 +1,7 @@
 [![Gem Version](https://badge.fury.io/rb/sidejobs.svg)](http://badge.fury.io/rb/sidejobs)
-[![Code Climate](https://codeclimate.com/github/mmontossi/sidejobs/badges/gpa.svg)](https://codeclimate.com/github/mmontossi/sidejobs)
-[![Build Status](https://travis-ci.org/mmontossi/sidejobs.svg)](https://travis-ci.org/mmontossi/sidejobs)
-[![Dependency Status](https://gemnasium.com/mmontossi/sidejobs.svg)](https://gemnasium.com/mmontossi/sidejobs)
+[![Code Climate](https://codeclimate.com/github/museways/sidejobs/badges/gpa.svg)](https://codeclimate.com/github/museways/sidejobs)
+[![Build Status](https://travis-ci.org/museways/sidejobs.svg)](https://travis-ci.org/museways/sidejobs)
+[![Dependency Status](https://gemnasium.com/museways/sidejobs.svg)](https://gemnasium.com/museways/sidejobs)
 
 # Sidejobs
 
@@ -93,7 +93,7 @@ I will mainly ensure compatibility to last versions of Ruby, Rails and PostgreSQ
 
 ## Credits
 
-This gem is maintained and funded by [mmontossi](https://github.com/mmontossi).
+This gem is maintained and funded by [museways](https://github.com/museways).
 
 ## License
 
