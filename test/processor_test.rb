@@ -15,7 +15,6 @@ class ProcessorTest < ActiveSupport::TestCase
     assert job.complete?
     assert_nil job.error
     assert_equal 1, job.attempts
-    assert_operator job.completed_at, :>, job.processed_at
   end
 
   test 'batch' do
@@ -27,7 +26,7 @@ class ProcessorTest < ActiveSupport::TestCase
     assert_equal 0, Sidejobs::Job.processing.count
     assert_equal 4, Sidejobs::Job.pending.count
 
-    Sidejobs::Job.last.update status: 'processing', processed_at: Time.now
+    Sidejobs::Job.last.update state: 'processing', processed_at: Time.now
     @processor.process
     assert_equal (@batch_size + 3), Sidejobs::Job.complete.count
     assert_equal 1, Sidejobs::Job.processing.count
@@ -43,7 +42,6 @@ class ProcessorTest < ActiveSupport::TestCase
     assert job.failing?
     assert_equal 'Social network unavailable', job.error
     assert_equal @max_attempts, job.attempts
-    assert_operator job.failed_at, :>, job.processed_at
   end
 
 end

@@ -11,7 +11,7 @@ module Sidejobs
     end
 
     def fetch
-      Job.where(status: %w(pending failing)).where(
+      Job.where(state: %w(pending failing)).where(
         'attempts < ?',
         Sidejobs.configuration.max_attempts
       ).where(
