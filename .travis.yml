@@ -3,13 +3,15 @@ sudo: false
 before_install:
   - rm Gemfile.lock
   - mv Gemfile.travis Gemfile
+  - gem update --system
 script:
   - cd test/dummy && bin/rails db:create db:migrate
   - cd ../.. && bin/test
 env:
   - RAILS=5.1
 rvm:
-  - 2.4.2
+  - 2.4.0
+  - 2.5.0
 matrix:
   fast_finish: true
 addons:

@@ -9,7 +9,7 @@ Versatile async database based jobs for rails.
 
 ## Why
 
-I did this gem to:
+We did this gem to:
 
 - Avoid the need to install another admin interface.
 - Simplify the job api by having close integration to rails.
@@ -89,7 +89,7 @@ Sidejobs::Job.failing.where('attempts > ?', 3).destroy_all
 
 Any issue, pull request, comment of any kind is more than welcome!
 
-I will mainly ensure compatibility to last versions of Ruby, Rails and PostgreSQL. 
+We will mainly ensure compatibility to last versions of Ruby, Rails and PostgreSQL. 
 
 ## Credits
 

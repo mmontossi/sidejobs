@@ -1,17 +1,34 @@
 module Sidejobs
   class Processor
-    include Loggable
+
+    def pids
+      @pids ||= {}
+    end
+
+    def stop
+      pids.values.flatten.each do |pid|
+        Process.kill :TERM, pid
+      end
+    end
 
     def process
-      Sidejobs.queue.fetch.each do |job|
-        job.update state: 'processing', processed_at: Time.zone.now, attempts: job.attempts+1
-        begin
-          ActiveJob::Base.execute job.data
-          job.update state: 'complete'
-        rescue => exception
-          job.update state: 'failing', error: exception.message
+      Sidejobs.configuration.queues.each do |queue, concurrency|
+        concurrency.times do
+          ActiveRecord::Base.connection.disconnect!
+          (pids[queue] ||= []) << fork do
+            stop = false
+            trap :TERM do
+              stop = true
+            end
+            until stop
+              Job.execute queue
+              sleep Sidejobs.configuration.sleep
+            end
+          end
+          ActiveRecord::Base.establish_connection
         end
       end
+      Process.waitall
     end
 
   end

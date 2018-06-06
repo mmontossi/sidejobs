@@ -2,7 +2,7 @@ require 'test_helper'
 require 'rails/generators'
 require 'generators/sidejobs/install/install_generator'
 
-class GeneratorsTest < Rails::Generators::TestCase
+class GeneratorTest < Rails::Generators::TestCase
   destination Rails.root.join('tmp')
 
   teardown do
@@ -13,7 +13,6 @@ class GeneratorsTest < Rails::Generators::TestCase
     self.class.tests Sidejobs::Generators::InstallGenerator
     run_generator
     assert_file 'config/initializers/sidejobs.rb'
-    assert_migration 'db/migrate/create_sidejobs.rb'
   end
 
 end

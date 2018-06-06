@@ -12,7 +12,7 @@ module Sidejobs
       end
 
       def create_migration_file
-        migration_template 'migration.rb', 'db/migrate/create_sidejobs.rb'
+        migration_template 'migration.rb', 'db/migrate/create_jobs.rb'
       end
 
       def self.next_migration_number(path)

@@ -1,6 +1,5 @@
 module Sidejobs
   class Daemon
-    include Loggable
 
     def running?
       if pid
@@ -28,11 +27,8 @@ module Sidejobs
     end
 
     def restart
-      if running?
-        Process.kill :HUP, pid
-      else
-        start
-      end
+      stop
+      spawn
     end
 
     def pid
@@ -45,6 +41,7 @@ module Sidejobs
       daemonize
       write_pid
       trap_signals
+      redirect_logs
       process
     end
 
@@ -52,12 +49,19 @@ module Sidejobs
       Process.daemon
     end
 
+    def logger
+      @logger ||= ActiveSupport::Logger.new(Rails.root.join('log/sidejobs.log'))
+    end
+
+    def redirect_logs
+      [ActionMailer, ActionController, ActionView, ActiveJob, ActiveRecord].each do |mod|
+        mod.const_get('Base').logger = logger
+      end
+    end
+
     def trap_signals
       trap :TERM do
-        @signal = :stop
-      end
-      trap :HUP do
-        @signal = :restart
+        processor.stop
       end
     end
 
@@ -78,28 +82,14 @@ module Sidejobs
       @processor ||= Processor.new
     end
 
-    def handle_signal
-      case @signal
-      when :stop
-        delete_pid
-      when :restart
-        @signal = nil
-        spawn
-      end
-    end
-
-    def signal_received?
-      @signal.present?
-    end
-
     def process
-      logger.info "Started #{pid} at #{Time.zone.now}"
-      until signal_received? do
-        processor.process
-        sleep Sidejobs.configuration.sleep_delay
+      logger.info "Started #{pid} at #{Time.now}"
+      processor.process
+      logger.info "Stopped #{pid} at #{Time.now}"
+      # Is possible to have old and new instance active at the same time for a moment
+      if Process.pid == pid
+        delete_pid
       end
-      logger.info "Stopped #{pid} at #{Time.zone.now}"
-      handle_signal
     end
 
   end

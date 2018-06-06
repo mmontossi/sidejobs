@@ -1,7 +1,15 @@
 module Sidejobs
   class Configuration
 
-    attr_accessor :max_attempts, :sleep_delay, :batch_size
+    attr_accessor :executions, :sleep
+
+    def queues
+      @queues ||= {}
+    end
+
+    def queue(name, concurrency)
+      queues[name] = concurrency
+    end
 
   end
 end

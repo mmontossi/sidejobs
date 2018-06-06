@@ -1,5 +1,5 @@
 module Sidejobs
 
-  VERSION = '5.1.1'
+  VERSION = '5.1.2.0'
 
 end

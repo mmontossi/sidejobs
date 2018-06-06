@@ -2,7 +2,7 @@ class ShareProductsJob < ApplicationJob
   queue_as :default
 
   def perform
-    raise 'Social network unavailable'
+    raise 'Unavailable'
   end
 
 end
