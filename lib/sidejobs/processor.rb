@@ -14,6 +14,7 @@ module Sidejobs
     def process
       Sidejobs.configuration.queues.each do |queue, concurrency|
         concurrency.times do
+          logger.info "Spawing #{concurrency}"
           ActiveRecord::Base.connection.disconnect!
           (pids[queue] ||= []) << fork do
             stop = false

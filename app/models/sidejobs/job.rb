@@ -47,6 +47,7 @@ module Sidejobs
       self.executions += 1
       save!
       begin
+        # Try single line with inject
         hash = {}
         MAPPINGS.each do |name, activejob_name|
           hash[activejob_name] = send(name)

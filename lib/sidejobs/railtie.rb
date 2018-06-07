@@ -7,9 +7,5 @@ module Sidejobs
       )
     end
 
-    rake_tasks do
-      load 'tasks/sidejobs.rake'
-    end
-
   end
 end

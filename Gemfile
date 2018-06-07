@@ -12,3 +12,4 @@ gemspec
 
 # To use a debugger
 #gem 'byebug', group: [:development, :test]
+gem 'tuning', git: 'https://github.com/museways/tuning'
